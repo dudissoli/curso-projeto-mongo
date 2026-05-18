@@ -1,15 +1,22 @@
 package com.eduarda.workshopmongo;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
 import java.io.Serializable;
 import java.util.Objects;
 
+@Document(collection = "user")
 public class User implements Serializable {
-    private int id;
+    private static final long serialVersionUID = 1L;
+
+    @Id
+    private String id; // 1. Alterado de int para String
     private String name;
     private String email;
 
-    // 1. O parâmetro "id" no construtor agora recebe um int
-    public User(int id, String name, String email) {
+    // 2. Construtor agora recebe uma String no id
+    public User(String id, String name, String email) {
         this.id = id;
         this.name = name;
         this.email = email;
@@ -22,7 +29,7 @@ public class User implements Serializable {
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return id == user.id; // Como é um tipo primitivo (int), usamos == em vez de Objects.equals
+        return Objects.equals(id, user.id); // 3. Voltamos a usar Objects.equals para comparar Strings
     }
 
     @Override
@@ -30,13 +37,13 @@ public class User implements Serializable {
         return Objects.hashCode(id);
     }
 
-    // 2. O tipo de retorno do Getter agora é int
-    public int getId() {
+    // 4. Getter alterado para retornar String
+    public String getId() {
         return id;
     }
 
-    // 3. O parâmetro do Setter agora recebe um int
-    public void setId(int id) {
+    // 5. Setter alterado para receber String
+    public void setId(String id) {
         this.id = id;
     }
 
